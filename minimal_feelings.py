@@ -27,9 +27,9 @@ class DecodedEmotion:
 
     # Get rid of emotions which don't pass a certain value
     def filter_scores(self):
-        print(f'Filtering scores for values >{self.acceptable_score_threshold}')
+        # TODO: On second thought, this would've been better added as a value within the dictionary as a new key-value pair such as {passable_score : True/False}
         my_dict = self.raw_scores_dict
-        filtered_list = [item for item in my_dict if item['score'] > self.acceptable_score_threshold] # Using dict comprehension
+        filtered_list = [item for item in my_dict if item['score'] > self.acceptable_score_threshold] # Using dict comprehension.
 
         self.filtered_scores = filtered_list
 
@@ -80,6 +80,14 @@ class DecodedEmotion:
                 emotion_definition = emotions_dict.get(emotion_name)
                 result['label_definition'] = emotion_definition
 
+    def print_relevant_emotions(self): # This function can be used to display the final result in the web version? Could be modified accordingly.
+        print(f'Original text: {self.input_text}')
+        print(f'Acceptable score threshold is set to >{self.acceptable_score_threshold}')
+        print("===========================")
+        for emotion_detected in self.filtered_scores:
+            print(f'{emotion_detected.get("label").title()} ({emotion_detected.get("label_definition")[:-1]}) detected with score {round(emotion_detected.get("score"),3)}')
+
+
 
 def main():
     # input_text = input("Enter the text which needs to be decoded for emotions: ")
@@ -100,10 +108,9 @@ def main():
     test_sentence = "I just feel mentally exhausted you know. I don't even know why I am tired in the first place and what's weighing me down. And because of that, I feel like I've lost progress on the last few weeks. I was mainly lying down in bed, suffering, but I can't even tell what. I guess it weighs on me to not feel like I have made more progress - is that being fair to myself?"
 
     decoded_sentence = DecodedEmotion(test_sentence)
-    decoded_sentence.print_raw_scores()
     decoded_sentence.add_label_definitions() # TODO: Incorporate into the class behavior itself?
-    decoded_sentence.print_raw_scores()
-
+    decoded_sentence.filter_scores()
+    decoded_sentence.print_relevant_emotions()
 
 
 
