@@ -13,7 +13,7 @@ class DecodedEmotion:
         classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
         model_outputs_results = classifier(input_text)
 
-        return model_outputs_results[0]
+        return model_outputs_results[0] # Set to 0 to flatten
 
     def print_input(self):
         print(f'Input sentence: {self.input_text}')
@@ -42,6 +42,43 @@ class DecodedEmotion:
         else:
             for filtered_score in self.filtered_scores:
                 print(filtered_score)
+
+    def add_label_definitions(self):
+        emotions_dict = {
+            'admiration': "Finding something impressive or worthy of respect.",
+            'amusement': "Finding something funny or being entertained.",
+            'anger': "A strong feeling of displeasure or antagonism.",
+            'annoyance': "Mild anger, irritation.",
+            'approval': "Having or expressing a favorable opinion.",
+            'caring': "Displaying kindness and concern for others.",
+            'confusion': "Lack of understanding, uncertainty.",
+            'curiosity': "A strong desire to know or learn something.",
+            'desire': "A strong feeling of wanting something or wishing for something to happen.",
+            'disappointment': "Sadness or displeasure caused by the nonfulfillment of one’s hopes or expectations.",
+            'disapproval': "Having or expressing an unfavorable opinion.",
+            'disgust': "Revulsion or strong disapproval aroused by something unpleasant or offensive.",
+            'embarrassment': "Self-consciousness, shame, or awkwardness.",
+            'excitement': "Feeling of great enthusiasm and eagerness.",
+            'fear': "Being afraid or worried.",
+            'gratitude': "A feeling of thankfulness and appreciation.",
+            'grief': "Intense sorrow, especially caused by someone’s death.",
+            'joy': "A feeling of pleasure and happiness.",
+            'love': "A strong positive emotion of regard and affection.",
+            'nervousness': "Apprehension, worry, anxiety.",
+            'optimism': "Hopefulness and confidence about the future or the success of something.",
+            'pride': "Pleasure or satisfaction due to one's own achievements or the achievements of those with whom one is closely associated.",
+            'realization': "Becoming aware of something.",
+            'relief': "Reassurance and relaxation following release from anxiety or distress.",
+            'remorse': "Regret or guilty feeling.",
+            'sadness': "Emotional pain, sorrow.",
+            'surprise': "Feeling astonished, startled by something unexpected."
+        }
+
+        for result in self.raw_scores_dict:
+            if result['label'] in emotions_dict:
+                emotion_name = result['label']
+                emotion_definition = emotions_dict.get(emotion_name)
+                result['label_definition'] = emotion_definition
 
 
 
@@ -136,8 +173,11 @@ def main():
     test_sentence = "I just feel mentally exhausted you know. I don't even know why I am tired in the first place and what's weighing me down. And because of that, I feel like I've lost progress on the last few weeks. I was mainly lying down in bed, suffering, but I can't even tell what. I guess it weighs on me to not feel like I have made more progress - is that being fair to myself?"
 
     decoded_sentence = DecodedEmotion(test_sentence)
-    decoded_sentence.filter_scores()
-    decoded_sentence.print_filtered_scores()
+    decoded_sentence.print_raw_scores()
+    decoded_sentence.add_label_definitions()
+    decoded_sentence.print_raw_scores()
+    # decoded_sentence.filter_scores()
+    # decoded_sentence.print_filtered_scores()
 
 
 
