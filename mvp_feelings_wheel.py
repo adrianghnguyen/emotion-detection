@@ -1,4 +1,5 @@
 import csv
+
 from transformers import pipeline
 
 
@@ -92,11 +93,11 @@ def test_sample_decode_text():
 def main():
     dict_emotion = get_emotion_definitions()
 
-    raw_text = receive_console_input()
-    process_emotion(raw_text)
+    # raw_text = receive_console_input()
+    # process_emotion(raw_text)
 
     # test_sample_decode_text()
-    # test_output_results()
+    test_output_results()
 
 
 if __name__ == "__main__":
