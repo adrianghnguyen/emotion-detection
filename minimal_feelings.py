@@ -1,6 +1,21 @@
 from transformers import pipeline
 
 
+class DecodedEmotion:
+    def __init__(self, input_sentence):
+        self.input_text = input_sentence
+        self.raw_scores = None
+
+    def score_for_emotions(self):
+        print("Running emotion classifier")
+        classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
+        model_outputs_results = classifier(self.input_sentence)
+        self.raw_scores = model_outputs_results[0]
+
+    def print_raw_scores(self):
+        for score in self.raw_scores:
+            print(score)
+
 
 def process_emotions(text):
     print("Running emotion classifier")
@@ -29,8 +44,8 @@ def filter_model_results(results, acceptable_score_threshold):
 
     return filtered_results
 
-def print_results_definitions(model_results):
 
+def print_results_definitions(model_results):
     emotions_dict = {
         'admiration': "Finding something impressive or worthy of respect.",
         'amusement': "Finding something funny or being entertained.",
@@ -71,8 +86,8 @@ def print_results_definitions(model_results):
                 emotion_definition = emotions_dict.get(emotion_name)
                 print(f'{emotion_name}: {emotion_definition}')
 
-
     return None
+
 
 def main():
     # input_text = input("Enter the text which needs to be decoded for emotions: ")
@@ -82,7 +97,7 @@ def main():
         'Love, love, love how Dad washed his hands first before picking up his son!',
         "She isn't fun anymore, she refuses to cut loose and drink more than a single drink or ever smoke weed with me even when the kids are at grandparents for the night. Sex is getting boring, she has no fantasies what so ever and I'm pretty sure she hasn't masturbated in years",
         'Everything about my wife is just bland now. She gets more excited talking about her job than I see her excited about anything we do together. You get her talking about her job and she can literally talk for hours. My job to me is purely a means to make money so we can afford things and do fun things so hearing about another person\'s job is like listening to a lecture on the step by step process of paint drying.',
-    "I just feel mentally exhausted you know. I don't even know why I am tired in the first place and what's weighing me down. And because of that, I feel like I've lost progress on the last few weeks. I was mainly lying down in bed, suffering, but I can't even tell what. I guess it weighs on me to not feel like I have made more progress - is that being fair to myself?"]
+        "I just feel mentally exhausted you know. I don't even know why I am tired in the first place and what's weighing me down. And because of that, I feel like I've lost progress on the last few weeks. I was mainly lying down in bed, suffering, but I can't even tell what. I guess it weighs on me to not feel like I have made more progress - is that being fair to myself?"]
     results = process_emotions(input_text)
 
     filtered_results = filter_model_results(results, acceptable_score_threshold=0.25)
