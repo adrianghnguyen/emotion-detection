@@ -4,7 +4,9 @@ from transformers import pipeline
 class DecodedEmotion:
     def __init__(self, input_sentence):
         self.input_text = input_sentence
-        self.raw_scores = self.score_for_emotions(self.input_text)
+        self.raw_scores_dict = self.score_for_emotions(self.input_text)
+        self.filtered_scores = None
+        self.acceptable_score_threshold = 0.1 # Default value
 
     def score_for_emotions(self, input_text):
         print("Running emotion classifier")
@@ -17,8 +19,27 @@ class DecodedEmotion:
         print(f'Input sentence: {self.input_text}')
 
     def print_raw_scores(self):
-        for score in self.raw_scores:
+        for score in self.raw_scores_dict:
             print(score)
+
+    def modify_score_threshold(self, new_acceptable_score):
+        self.acceptable_score_threshold = new_acceptable_score
+
+    # Get rid of emotions which don't pass a certain value
+    def filter_scores(self):
+        print(f'Filtering scores for values >{self.acceptable_score_threshold}')
+        my_dict = self.raw_scores_dict
+        filtered_dict = {key: value for key, value in my_dict.item() if value > self.acceptable_score_threshold}
+        self.filtered_scores = filtered_dict
+
+    def print_filtered_scores(self):
+
+        if self.filtered_scores is None:
+            print('Scores not filtered')
+        else:
+            for filtered_score in self.filtered_scores:
+                print(filtered_score)
+
 
 
 def process_emotions(text):
@@ -114,6 +135,8 @@ def main():
     decoded_sentence = DecodedEmotion(test_sentence)
     decoded_sentence.print_input()
     decoded_sentence.print_raw_scores()
+    decoded_sentence.filter_scores()
+    decoded_sentence.print_filtered_scores()
 
 
 
