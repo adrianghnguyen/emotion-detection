@@ -29,10 +29,13 @@ class DecodedEmotion:
     def filter_scores(self):
         print(f'Filtering scores for values >{self.acceptable_score_threshold}')
         my_dict = self.raw_scores_dict
-        filtered_dict = {key: value for key, value in my_dict.item() if value > self.acceptable_score_threshold}
-        self.filtered_scores = filtered_dict
+        filtered_list = [item for item in my_dict if item['score'] > self.acceptable_score_threshold] # Using dict comprehension
+
+        self.filtered_scores = filtered_list
 
     def print_filtered_scores(self):
+
+        print('Printing out the filtered scores')
 
         if self.filtered_scores is None:
             print('Scores not filtered')
@@ -133,8 +136,6 @@ def main():
     test_sentence = "I just feel mentally exhausted you know. I don't even know why I am tired in the first place and what's weighing me down. And because of that, I feel like I've lost progress on the last few weeks. I was mainly lying down in bed, suffering, but I can't even tell what. I guess it weighs on me to not feel like I have made more progress - is that being fair to myself?"
 
     decoded_sentence = DecodedEmotion(test_sentence)
-    decoded_sentence.print_input()
-    decoded_sentence.print_raw_scores()
     decoded_sentence.filter_scores()
     decoded_sentence.print_filtered_scores()
 
