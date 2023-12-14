@@ -4,13 +4,17 @@ from transformers import pipeline
 class DecodedEmotion:
     def __init__(self, input_sentence):
         self.input_text = input_sentence
-        self.raw_scores = None
+        self.raw_scores = self.score_for_emotions(self.input_text)
 
-    def score_for_emotions(self):
+    def score_for_emotions(self, input_text):
         print("Running emotion classifier")
         classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
-        model_outputs_results = classifier(self.input_sentence)
-        self.raw_scores = model_outputs_results[0]
+        model_outputs_results = classifier(input_text)
+
+        return model_outputs_results[0]
+
+    def print_input(self):
+        print(f'Input sentence: {self.input_text}')
 
     def print_raw_scores(self):
         for score in self.raw_scores:
@@ -98,12 +102,22 @@ def main():
         "She isn't fun anymore, she refuses to cut loose and drink more than a single drink or ever smoke weed with me even when the kids are at grandparents for the night. Sex is getting boring, she has no fantasies what so ever and I'm pretty sure she hasn't masturbated in years",
         'Everything about my wife is just bland now. She gets more excited talking about her job than I see her excited about anything we do together. You get her talking about her job and she can literally talk for hours. My job to me is purely a means to make money so we can afford things and do fun things so hearing about another person\'s job is like listening to a lecture on the step by step process of paint drying.',
         "I just feel mentally exhausted you know. I don't even know why I am tired in the first place and what's weighing me down. And because of that, I feel like I've lost progress on the last few weeks. I was mainly lying down in bed, suffering, but I can't even tell what. I guess it weighs on me to not feel like I have made more progress - is that being fair to myself?"]
-    results = process_emotions(input_text)
+    # results = process_emotions(input_text)
+    #
+    # filtered_results = filter_model_results(results, acceptable_score_threshold=0.25)
+    # # print(*filtered_results, sep='\n')
+    #
+    # print_results_definitions(filtered_results)
 
-    filtered_results = filter_model_results(results, acceptable_score_threshold=0.25)
-    # print(*filtered_results, sep='\n')
+    test_sentence = "I just feel mentally exhausted you know. I don't even know why I am tired in the first place and what's weighing me down. And because of that, I feel like I've lost progress on the last few weeks. I was mainly lying down in bed, suffering, but I can't even tell what. I guess it weighs on me to not feel like I have made more progress - is that being fair to myself?"
 
-    print_results_definitions(filtered_results)
+    decoded_sentence = DecodedEmotion(test_sentence)
+    decoded_sentence.print_input()
+    decoded_sentence.print_raw_scores()
+
+
+
+
 
 
 if __name__ == "__main__":
