@@ -1,6 +1,5 @@
 from transformers import pipeline
 
-
 class DecodedEmotion:
     def __init__(self, input_sentence):
         self.input_text = input_sentence
@@ -87,8 +86,6 @@ class DecodedEmotion:
         for emotion_detected in self.filtered_scores:
             print(f'{emotion_detected.get("label").title()} ({emotion_detected.get("label_definition")[:-1]}) detected with score {round(emotion_detected.get("score"),3)}')
 
-
-
 def main():
     # input_text = input("Enter the text which needs to be decoded for emotions: ")
     input_text = [
@@ -112,8 +109,6 @@ def main():
     decoded_sentence.add_label_definitions() # TODO: Incorporate into the class behavior itself?
     decoded_sentence.filter_scores()
     decoded_sentence.print_relevant_emotions()
-
-
 
 if __name__ == "__main__":
     main()
