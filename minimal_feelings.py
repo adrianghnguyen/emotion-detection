@@ -107,7 +107,8 @@ def main():
 
     test_sentence = "I just feel mentally exhausted you know. I don't even know why I am tired in the first place and what's weighing me down. And because of that, I feel like I've lost progress on the last few weeks. I was mainly lying down in bed, suffering, but I can't even tell what. I guess it weighs on me to not feel like I have made more progress - is that being fair to myself?"
 
-    decoded_sentence = DecodedEmotion(test_sentence)
+    # decoded_sentence = DecodedEmotion(test_sentence)
+    decoded_sentence = DecodedEmotion(input_text[2])
     decoded_sentence.add_label_definitions() # TODO: Incorporate into the class behavior itself?
     decoded_sentence.filter_scores()
     decoded_sentence.print_relevant_emotions()
