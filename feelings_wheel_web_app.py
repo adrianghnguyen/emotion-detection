@@ -1,4 +1,5 @@
 from flask import *
+from minimal_feelings import DecodedEmotion
 
 app = Flask(__name__)
 
@@ -13,16 +14,17 @@ def test_function():
 def home():
     if request.method == "POST":
         print(request.form["input_text"])
-        text = request.form['input_text']
-        return redirect(f"/process/{text}")
+        input_text = request.form['input_text']
+        input_text = 'I am feeling sad today'
+        return redirect(f"/process/{input_text}")
 
     return render_template("index.html")
 
 @app.route("/process/<text>")
-def process(text):
-    result = test_function()
+def process_emotion(text):
+    user_emotion = DecodedEmotion(input_sentence=text) # More descriptive variable name needed?
 
-    return render_template("processed_text.html", result=result, input_text=text)
+    return render_template("processed_text.html", result=user_emotion.filtered_scores, input_text=text)
     # return f"You sent \"{text}\" to be processed"
 
 

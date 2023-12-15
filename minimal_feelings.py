@@ -27,8 +27,7 @@ class DecodedEmotion:
     # Get rid of emotions which don't pass a certain value
     def filter_scores(self):
         # TODO: On second thought, this would've been better added as a value within the dictionary as a new key-value pair such as {passable_score : True/False}
-        my_dict = self.raw_scores_dict
-        filtered_list = [item for item in my_dict if item['score'] > self.acceptable_score_threshold] # Using dict comprehension.
+        filtered_list = [item for item in self.raw_scores_dict if item['score'] > self.acceptable_score_threshold] # Using dict comprehension.
 
         self.filtered_scores = filtered_list
 
