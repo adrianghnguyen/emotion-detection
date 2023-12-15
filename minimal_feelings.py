@@ -4,8 +4,8 @@ class DecodedEmotion:
     def __init__(self, input_sentence):
         self.input_text = input_sentence
         self.raw_scores_dict = self.score_for_emotions(self.input_text)
-        self.filtered_scores = None
         self.acceptable_score_threshold = 0.1 # Default value
+        self.filtered_scores = None
 
     def score_for_emotions(self, input_text):
         print("Running emotion classifier")
@@ -14,10 +14,10 @@ class DecodedEmotion:
 
         return model_outputs_results[0] # Set to 0 to flatten
 
-    def print_input(self):
+    def display_input(self):
         print(f'Input sentence: {self.input_text}')
 
-    def print_raw_scores(self):
+    def display_raw_scores(self):
         for score in self.raw_scores_dict:
             print(score)
 
@@ -26,7 +26,8 @@ class DecodedEmotion:
 
     # Get rid of emotions which don't pass a certain value
     def filter_scores(self):
-        # TODO: On second thought, this would've been better added as a value within the dictionary as a new key-value pair such as {passable_score : True/False}
+        # TODO: On second thought, this would've been better added as a value within the dictionary as a new
+        #  key-value pair such as {passable_score : True/False}
         filtered_list = [item for item in self.raw_scores_dict if item['score'] > self.acceptable_score_threshold] # Using dict comprehension.
 
         self.filtered_scores = filtered_list
