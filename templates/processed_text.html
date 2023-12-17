@@ -12,7 +12,8 @@
         {% for result in emotion_results %}
             <li>
                 {% for key, value in result.items() %}
-                    <strong>{{ key }}:</strong> {{ value }}{% if not loop.last %}, {% endif %}
+                    
+                    <strong>{{ key }}:</strong> {{ value }}
                 {% endfor %}
             </li>
         {% endfor %}
