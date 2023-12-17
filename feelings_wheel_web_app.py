@@ -41,7 +41,7 @@ def process_emotion(text):
     emotion_results = user_emotion.filtered_scores
     print(emotion_results)
 
-    return render_template("processed_text.html", result=emotion_results, input_text=text)
+    return render_template("processed_text.html", emotion_results=emotion_results, input_text=text)
     # return f"You sent \"{text}\" to be processed"
 
 

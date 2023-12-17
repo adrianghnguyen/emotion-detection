@@ -5,8 +5,17 @@
     <title>Processed text</title>
 </head>
 <body>
-    Original input to be classified: {{input_text}}
-
-    Emotions results: {{ result }}
+    <h1>Original input to be classified</h1>
+    <p>{{ input_text }}</p>
+    <h2>Emotion results</h2>
+    <ul>
+        {% for result in emotion_results %}
+            <li>
+                {% for key, value in result.items() %}
+                    <strong>{{ key }}:</strong> {{ value }}{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
