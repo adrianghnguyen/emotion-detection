@@ -5,18 +5,18 @@
     <title>Processed text</title>
 </head>
 <body>
-    <h1>Original input to be classified</h1>
+    <h1>Processed text</h1>
     <p>{{ input_text }}</p>
-    <h2>Emotion results</h2>
+    <h2>Emotion label scores</h2>
     <ul>
-        {% for result in emotion_results %}
+        {% for emotion in emotion_results %}
             <li>
-                {% for key, value in result.items() %}
-                    
-                    <strong>{{ key }}:</strong> {{ value }}
-                {% endfor %}
+                {{ emotion.get("label")}} ({{ emotion.get("label_definition")}} ) presence detected with a score of
+                {{ emotion.get("score")}}
             </li>
         {% endfor %}
+        
+        All values <{{ filtering_threshold }} have been filtered.
     </ul>
 </body>
 </html>

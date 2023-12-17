@@ -39,9 +39,12 @@ def process_emotion(text):
     user_emotion.add_label_definitions() # FUCKING SPAGHETTITTITITITITI
     user_emotion.filter_scores() # Get rid of this into the class behavior. The class should have everything packed in.
     emotion_results = user_emotion.filtered_scores
+    filtering_threshold = getattr(user_emotion, 'acceptable_score_threshold')
     print(emotion_results)
 
-    return render_template("processed_text.html", emotion_results=emotion_results, input_text=text)
+    for emotion in emotion_results:
+        print(f'{emotion.get("label")} ({emotion.get("label_definition")}) presence detected with a score of {emotion.get("label_definition")}')
+    return render_template("processed_text.html", emotion_results=emotion_results, input_text=text, filtering_threshold=filtering_threshold)
     # return f"You sent \"{text}\" to be processed"
 
 
