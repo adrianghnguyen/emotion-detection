@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Processed text</title>
-</head>
-<body>
-    <h1>Processed text</h1>
-    <p>{{ input_text }}</p>
-    <h2>Emotion label scores</h2>
-    <ul>
-        {% for emotion in emotion_results %}
-            <li>
-                {{ emotion.get("label")}} ({{ emotion.get("label_definition")}} ) presence detected with a score of
-                {{ emotion.get("score")}}
-            </li>
-        {% endfor %}
-        
-        All values <{{ filtering_threshold }} have been filtered.
-    </ul>
-</body>
+   <head>
+      <meta charset="UTF-8">
+      <title>Processed text</title>
+   </head>
+   <body>
+      <h2>Processed text</h2>
+      <p>{{ input_text }}</p>
+      <h2>Emotion label scores</h2>
+      <ul>
+         {% for emotion in emotion_results %}
+         <li>
+            {{ emotion.get("label")|capitalize }} ({{ emotion.get("label_definition")}}) presence detected with a
+             score of <b>{{ emotion.get("score")|round(2) }}</b>
+         </li>
+         {% endfor %}
+      </ul>
+      All values <b><{{ filtering_threshold }} </b> have been filtered.
+   </body>
 </html>
