@@ -1,15 +1,21 @@
 from flask import *
 from minimal_feelings import DecodedEmotion
+import re
 
 app = Flask(__name__)
-testing = True
+testing = False
 
+def clean_input(raw_text):
+    clean_header = re.sub(r'[\r\n]', '', raw_text)
+    print(f'Sanitized text: {clean_header}')
+    return clean_header
 
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
-        print(request.form["input_text"])
+        # print(request.form["input_text"])
         input_text = request.form['input_text']
+        print(f'Received the following input text: {input_text}')
 
         if testing:
             input_text = ("So I met a girl through bumble, she and I had an amazing vibe. I really liked her but in the "
@@ -27,8 +33,9 @@ def home():
                           "college and she saw me. I texted her I was a standby for you, I hope you find your happiness "
                           "and thanks for everything. She said I hope the same for you. So yeah, fuck her.") # TODO: Remove this hard-coded value after testing
 
-        print(f'Received the following input text: {input_text}')
-        return redirect(f"/process/{input_text}")
+
+
+        return redirect(f"/process/{clean_input(input_text)}")
 
     return render_template("index.html")
 
