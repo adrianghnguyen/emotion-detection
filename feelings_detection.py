@@ -63,6 +63,12 @@ def enhanced_results_scores(results, filter_score):
 
     return enhanced_results
 
+def process_single_result(input_text, acceptable_filter_score):
+
+    single_result = label_emotion_scores(input_text)[0]
+    enhanced_single_result = enhanced_results_scores(single_result, acceptable_filter_score)
+
+    return enhanced_single_result
 
 def main():
     input_text = ("I just feel mentally exhausted you know. I don't even know why I am tired in the first place and "
@@ -70,14 +76,7 @@ def main():
                   "weeks. I was mainly lying down in bed, suffering, but I can't even tell what. I guess it weighs on "
                   "me to not feel like I have made more progress - is that being fair to myself?")
 
-    acceptable_filter_score = 0.1
-
-    single_result = label_emotion_scores(input_text)[0]
-    enhanced_single_result = enhanced_results_scores(single_result, acceptable_filter_score)
-
-    for score in enhanced_single_result:
-        if score.get('filter') == True:
-            print(score)
+    print(process_single_result(input_text=input_text, acceptable_filter_score=0.1))
 
 
 if __name__ == "__main__":
