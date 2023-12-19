@@ -7,10 +7,6 @@ app = Flask(__name__)
 def form():
     return render_template('index.html')
 
-@app.route('/hello', methods=['GET', 'POST'])
-def hello():
-    return render_template('greeting.html', say=request.form['say'], to=request.form['to'])
-
 @app.route('/processed_emotion', methods=['GET', 'POST'])
 def processed_emotion():
     input_text = request.form['input_text']
