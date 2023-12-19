@@ -1,5 +1,5 @@
 from flask import *
-from minimal_feelings import DecodedEmotion
+from old.minimal_feelings import DecodedEmotion
 import re
 
 app = Flask(__name__)

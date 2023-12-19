@@ -70,7 +70,8 @@ class DecodedEmotion:
             'relief': "Reassurance and relaxation following release from anxiety or distress",
             'remorse': "Regret or guilty feeling",
             'sadness': "Emotional pain, sorrow",
-            'surprise': "Feeling astonished, startled by something unexpected"
+            'surprise': "Feeling astonished, startled by something unexpected",
+            'neutral' : "No overall sentiment"
         }
 
         for result in self.raw_scores_dict:
