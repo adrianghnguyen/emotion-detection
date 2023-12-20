@@ -1,9 +1,22 @@
-from transformers import pipeline
+from transformers import AutoTokenizer, pipeline
+from optimum.onnxruntime import ORTModelForSequenceClassification
 
+model_id = "SamLowe/roberta-base-go_emotions-onnx"
+file_name = "onnx/model_quantized.onnx"
+
+model = ORTModelForSequenceClassification.from_pretrained(model_id, file_name=file_name)
+tokenizer = AutoTokenizer.from_pretrained(model_id)
 
 def label_emotion_scores(input_text):
-    classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
-    model_outputs_results = classifier(input_text)
+    onnx_classifier = pipeline(
+        task="text-classification",
+        model=model,
+        tokenizer=tokenizer,
+        top_k=None,
+        function_to_apply="sigmoid",  # optional as is the default for the task
+    )
+
+    model_outputs_results = onnx_classifier(input_text)
 
     return model_outputs_results
 
